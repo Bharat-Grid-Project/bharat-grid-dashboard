@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat-Grid Control Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* Deep pitch-black */
+            color: #f8fafc;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-purple-btn {
+            background: linear-gradient(90deg, #7f00ff, #e100ff);
+            transition: all 0.3s ease;
+        }
+        .neon-purple-btn:hover {
+            box-shadow: 0 0 15px #e100ff;
+            transform: scale(1.02);
+        }
+        .glowing-cyan {
+            color: #00f2fe;
+            text-shadow: 0 0 10px #00f2fe;
+        }
+        .modal-enter {
+            animation: slideIn 0.3s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8 flex flex-col items-center">
+    
+    <header class="w-full max-w-6xl flex justify-between items-center mb-12">
+        <h1 class="text-3xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">BHARAT-GRID</h1>
+        <div class="text-sm text-gray-400">Decentralized Cloud Ecosystem MVP</div>
+    </header>
+
+    <main class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Left Side: Live Registry -->
+        <section class="glass-card rounded-2xl p-6">
+            <h2 class="text-xl font-semibold mb-6 flex items-center">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 mr-3 animate-pulse"></span>
+                Active Provider Registry
+            </h2>
+            <div id="nodes-container" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                <!-- Nodes will be injected here -->
+                <div class="text-gray-500 text-sm">Waiting for nodes to connect...</div>
+            </div>
+        </section>
+
+        <!-- Right Side: Deployment Card -->
+        <section class="glass-card rounded-2xl p-6 flex flex-col justify-center">
+            <h2 class="text-2xl font-bold mb-2">Deploy Workload</h2>
+            <p class="text-gray-400 text-sm mb-8">Route an OCI-compliant container to the optimal edge node.</p>
+            
+            <form id="deploy-form" class="space-y-5">
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">Application Name</label>
+                    <input type="text" id="app_name" required class="w-full bg-black/30 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-purple-500 transition-colors" placeholder="e.g. My Web Server">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">Target Docker Image Path</label>
+                    <input type="text" id="docker_image" required class="w-full bg-black/30 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-purple-500 transition-colors" placeholder="e.g. nginxdemos/hello">
+                </div>
+                
+                <button type="submit" id="deploy-btn" class="w-full neon-purple-btn text-white font-bold py-4 rounded-lg mt-4 uppercase tracking-wider flex justify-center items-center">
+                    <span>Deploy to Bharat-Grid</span>
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Success Modal Toast -->
+    <div id="success-modal" class="fixed top-10 right-10 glass-card rounded-xl p-5 border-l-4 border-l-green-400 hidden shadow-2xl z-50 min-w-[300px]">
+        <div class="flex items-start justify-between">
+            <div>
+                <h3 class="text-green-400 font-bold mb-1">Deployment Successful!</h3>
+                <p class="text-sm text-gray-300 mb-2">Assigned Node ID: <span id="toast-node-id" class="font-mono text-xs"></span></p>
+                <a id="toast-url" href="#" target="_blank" class="text-cyan-400 hover:text-cyan-300 text-sm underline font-semibold flex items-center">
+                    Open Live Application <span class="ml-1">→</span>
+                </a>
+            </div>
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="text-gray-500 hover:text-white">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        const ORCHESTRATOR_URL = 'http://127.0.0.1:8000';
+
+        // Fetch active nodes every 5 seconds
+        async function fetchNodes() {
+            try {
+                const res = await fetch(`${ORCHESTRATOR_URL}/api/nodes/active`);
+                if (!res.ok) throw new Error('Failed to fetch nodes');
+                const nodes = await res.json();
+                
+                const container = document.getElementById('nodes-container');
+                
+                if (nodes.length === 0) {
+                    container.innerHTML = '<div class="text-gray-500 text-sm">No active nodes available.</div>';
+                    return;
+                }
+
+                container.innerHTML = nodes.map(node => `
+                    <div class="bg-black/40 border border-gray-800 rounded-lg p-4 flex justify-between items-center transition-all hover:border-gray-600">
+                        <div>
+                            <div class="text-xs text-gray-400 font-mono mb-1">ID: ${node.node_id.split('-')[0]}...</div>
+                            <div class="text-sm font-semibold">${node.available_cpu} vCPUs • ${node.available_ram_gb} GB RAM</div>
+                        </div>
+                        <div class="glowing-cyan font-bold text-xs uppercase px-2 py-1 bg-cyan-900/30 rounded border border-cyan-800">
+                            Online
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error("Error fetching nodes:", error);
+            }
+        }
+
+        setInterval(fetchNodes, 5000);
+        fetchNodes(); // Initial fetch
+
+        // Handle Deploy Form
+        document.getElementById('deploy-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const appName = document.getElementById('app_name').value;
+            const dockerImage = document.getElementById('docker_image').value;
+            const btn = document.getElementById('deploy-btn');
+            
+            btn.innerHTML = '<span class="animate-pulse">Provisioning...</span>';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${ORCHESTRATOR_URL}/api/deploy`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ app_name: appName, docker_image: dockerImage })
+                });
+                
+                const data = await res.json();
+                
+                if (res.ok) {
+                    // Show success toast
+                    const modal = document.getElementById('success-modal');
+                    document.getElementById('toast-node-id').textContent = data.target_node.node_id;
+                    
+                    // The Node Client opens port 8080. We need to construct the URL based on the Node's IP
+                    document.getElementById('toast-url').href = `http://${data.target_node.ip_address}:8080`;
+                    
+                    modal.classList.remove('hidden');
+                    modal.classList.add('modal-enter');
+                    
+                    // Auto hide after 10s
+                    setTimeout(() => modal.classList.add('hidden'), 10000);
+                } else {
+                    alert(`Deployment Failed: ${data.detail}`);
+                }
+            } catch (error) {
+                console.error("Deploy error:", error);
+                alert("Network error connecting to orchestrator.");
+            } finally {
+                btn.innerHTML = '<span>Deploy to Bharat-Grid</span>';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
