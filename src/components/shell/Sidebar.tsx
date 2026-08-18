@@ -109,17 +109,30 @@ export function Sidebar({ onMobileClose }: { onMobileClose?: () => void }) {
 
       {/* Bottom Navigation */}
       <div className="p-4 border-t border-[var(--color-glass-border)] space-y-1 shrink-0">
-        {BOTTOM_NAV.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            onClick={onMobileClose}
-            className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-gray-400 hover:text-gray-200 hover:bg-[var(--color-glass-bg)]"
-          >
-            <item.icon size={18} />
-            <span className="font-medium text-sm">{item.name}</span>
-          </Link>
-        ))}
+        <Link
+          href={`/${mode}/settings`}
+          onClick={onMobileClose}
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
+            pathname === `/${mode}/settings` || pathname?.startsWith(`/${mode}/settings/`)
+              ? "bg-[var(--color-blue-500)]/10 text-[var(--color-blue-500)] shadow-[inset_2px_0_0_0_var(--color-blue-500)]"
+              : "text-gray-400 hover:text-gray-200 hover:bg-[var(--color-glass-bg)]"
+          }`}
+        >
+          <Settings size={18} />
+          <span className="font-medium text-sm">Settings</span>
+        </Link>
+        <Link
+          href={`/${mode}/support`}
+          onClick={onMobileClose}
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
+            pathname === `/${mode}/support` || pathname?.startsWith(`/${mode}/support/`)
+              ? "bg-[var(--color-blue-500)]/10 text-[var(--color-blue-500)] shadow-[inset_2px_0_0_0_var(--color-blue-500)]"
+              : "text-gray-400 hover:text-gray-200 hover:bg-[var(--color-glass-bg)]"
+          }`}
+        >
+          <HelpCircle size={18} />
+          <span className="font-medium text-sm">Help & Support</span>
+        </Link>
       </div>
     </div>
   );
