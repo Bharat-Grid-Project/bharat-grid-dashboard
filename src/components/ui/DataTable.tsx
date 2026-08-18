@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { GlassCard } from "./GlassCard";
 import { cn } from "./GlassCard";
 import { ChevronLeft, ChevronRight, ArrowUpDown } from "lucide-react";
+import { motion } from "framer-motion";
 
 export interface Column<T> {
   key: string;
@@ -18,6 +19,25 @@ interface DataTableProps<T> {
   keyExtractor: (item: T) => string;
   className?: string;
 }
+
+const tableVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05
+    }
+  }
+};
+
+const rowVariants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 }
+  }
+};
 
 export function DataTable<T>({ data, columns, keyExtractor, className }: DataTableProps<T>) {
   return (
@@ -43,7 +63,12 @@ export function DataTable<T>({ data, columns, keyExtractor, className }: DataTab
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/10">
+          <motion.tbody 
+            variants={tableVariants}
+            initial="hidden"
+            animate="visible"
+            className="divide-y divide-white/10"
+          >
             {data.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-500">
@@ -52,7 +77,8 @@ export function DataTable<T>({ data, columns, keyExtractor, className }: DataTab
               </tr>
             ) : (
               data.map((item) => (
-                <tr 
+                <motion.tr 
+                  variants={rowVariants}
                   key={keyExtractor(item)} 
                   className="hover:bg-white/[0.02] transition-colors duration-150 group"
                 >
@@ -61,10 +87,10 @@ export function DataTable<T>({ data, columns, keyExtractor, className }: DataTab
                       {col.render ? col.render(item) : (item as any)[col.key]}
                     </td>
                   ))}
-                </tr>
+                </motion.tr>
               ))
             )}
-          </tbody>
+          </motion.tbody>
         </table>
       </div>
 

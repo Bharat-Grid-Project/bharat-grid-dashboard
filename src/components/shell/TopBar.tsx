@@ -1,51 +1,178 @@
 "use client";
 
-import { Bell, Search, ShieldCheck } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Bell, Search, ShieldCheck, Menu, Settings, CreditCard, LogOut, RefreshCcw } from "lucide-react";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { motion, AnimatePresence } from "framer-motion";
+import { useWorkspaceStore } from "@/store/workspaceStore";
+import { useRouter } from "next/navigation";
 
-export function TopBar() {
+export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const { mode, setMode } = useWorkspaceStore();
+  const router = useRouter();
+
+  const notifRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setShowProfile(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleRoleSwitch = () => {
+    if (mode === "client") {
+      setMode("provider");
+      router.push("/provider/overview");
+    } else {
+      setMode("client");
+      router.push("/client/overview");
+    }
+    setShowProfile(false);
+  };
+
   return (
-    <div className="h-16 border-b border-[var(--color-glass-border)] bg-[var(--color-bg-900)]/80 backdrop-blur-xl flex items-center justify-between px-6 glass-panel z-10 sticky top-0">
+    <div className="h-16 border-b border-[var(--color-glass-border)] bg-[var(--color-bg-900)]/80 backdrop-blur-xl flex items-center justify-between px-4 md:px-6 glass-panel z-20 sticky top-0 shrink-0">
       
-      {/* Search */}
-      <div className="flex-1 max-w-md">
-        <div className="relative group">
+      <div className="flex items-center gap-4 flex-1 max-w-md">
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="md:hidden text-gray-400 hover:text-white transition-colors"
+          onClick={onMenuClick}
+        >
+          <Menu size={24} />
+        </button>
+
+        {/* Search */}
+        <div className="relative group w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[var(--color-cyan-400)] transition-colors" size={18} />
           <input 
             type="text" 
-            placeholder="Search deployments, nodes, workloads..." 
+            placeholder="Search deployments..." 
             className="w-full bg-[var(--color-bg-800)] border border-[var(--color-glass-border)] rounded-lg py-2 pl-10 pr-4 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-[var(--color-cyan-400)]/50 focus:ring-1 focus:ring-[var(--color-cyan-400)]/50 transition-all"
           />
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-gray-500 bg-[var(--color-bg-900)] rounded border border-gray-700">⌘K</kbd>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 items-center gap-1 hidden lg:flex">
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-gray-500 bg-[var(--color-bg-900)] rounded border border-gray-700">⌘K</kbd>
           </div>
         </div>
       </div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4 md:gap-6 ml-4">
         
         {/* Network Status */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-bg-800)] border border-[var(--color-glass-border)]">
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-bg-800)] border border-[var(--color-glass-border)]">
           <ShieldCheck size={16} className="text-[var(--color-green-500)]" />
           <span className="text-xs font-medium text-gray-300">Network Healthy</span>
           <span className="w-2 h-2 rounded-full bg-[var(--color-green-500)] animate-pulse shadow-[0_0_8px_rgba(22,163,74,0.6)] ml-1"></span>
         </div>
 
         {/* Notifications */}
-        <button className="relative text-gray-400 hover:text-white transition-colors">
-          <Bell size={20} />
-          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[var(--color-red-500)] shadow-[0_0_8px_rgba(220,38,38,0.8)]"></span>
-        </button>
+        <div className="relative" ref={notifRef}>
+          <button 
+            onClick={() => { setShowNotifications(!showNotifications); setShowProfile(false); }}
+            className="relative text-gray-400 hover:text-white transition-colors"
+          >
+            <Bell size={20} />
+            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[var(--color-red-500)] shadow-[0_0_8px_rgba(220,38,38,0.8)]"></span>
+          </button>
+          
+          <AnimatePresence>
+            {showNotifications && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 mt-4 w-72 origin-top-right z-50"
+              >
+                <GlassCard className="p-0 overflow-hidden border-[var(--color-glass-border)] shadow-2xl">
+                  <div className="px-4 py-3 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
+                    <span className="text-sm font-semibold text-white">Notifications</span>
+                    <span className="text-xs text-[var(--color-blue-500)] cursor-pointer">Mark all read</span>
+                  </div>
+                  <div className="flex flex-col max-h-80 overflow-y-auto">
+                    <div className="px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="w-2 h-2 rounded-full bg-[var(--color-green-500)]" />
+                        <span className="text-xs text-gray-300 font-medium">Node-042 joined the grid</span>
+                      </div>
+                      <p className="text-xs text-gray-500 pl-4">12 mins ago</p>
+                    </div>
+                    <div className="px-4 py-3 hover:bg-white/5 transition-colors cursor-pointer">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="w-2 h-2 rounded-full bg-[var(--color-cyan-400)]" />
+                        <span className="text-xs text-gray-300 font-medium">Deployment API-Service-v1.3 active</span>
+                      </div>
+                      <p className="text-xs text-gray-500 pl-4">2 hours ago</p>
+                    </div>
+                  </div>
+                </GlassCard>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-        {/* Profile Dropdown Placeholder */}
-        <div className="flex items-center gap-3 pl-6 border-l border-[var(--color-glass-border)] cursor-pointer group">
-          <div className="text-right hidden sm:block">
-            <div className="text-sm font-semibold text-gray-200 group-hover:text-white transition-colors">Dev User</div>
-            <div className="text-xs text-gray-500">Account</div>
+        {/* Profile Dropdown */}
+        <div className="relative pl-4 md:pl-6 border-l border-[var(--color-glass-border)]" ref={profileRef}>
+          <div 
+            onClick={() => { setShowProfile(!showProfile); setShowNotifications(false); }}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
+            <div className="text-right hidden sm:block">
+              <div className="text-sm font-semibold text-gray-200 group-hover:text-white transition-colors">Dev User</div>
+              <div className="text-xs text-gray-500">Account</div>
+            </div>
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-tr from-[var(--color-blue-500)] to-[var(--color-purple-500)] border border-white/20 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_10px_rgba(45,124,255,0.3)]">
+              DU
+            </div>
           </div>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-gray-700 to-gray-500 border border-gray-600 flex items-center justify-center text-white font-bold text-sm">
-            DU
-          </div>
+
+          <AnimatePresence>
+            {showProfile && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 mt-4 w-60 origin-top-right z-50"
+              >
+                <GlassCard className="p-2 border-[var(--color-glass-border)] shadow-2xl flex flex-col gap-1">
+                  
+                  {/* Role Switcher Action */}
+                  <div 
+                    onClick={handleRoleSwitch}
+                    className="px-3 py-2 text-sm text-[var(--color-cyan-400)] hover:bg-[var(--color-cyan-400)]/10 rounded-md transition-colors cursor-pointer flex items-center gap-2 mb-1 border border-[var(--color-cyan-400)]/20"
+                  >
+                    <RefreshCcw size={16} /> 
+                    Switch to {mode === "client" ? "Provider" : "Client"} Mode
+                  </div>
+
+                  <div className="h-px bg-white/10 my-1 mx-2" />
+
+                  <div className="px-3 py-2 text-sm text-white hover:bg-white/10 rounded-md transition-colors cursor-pointer flex items-center gap-2">
+                    <Settings size={16} className="text-gray-400" /> Account Settings
+                  </div>
+                  <div className="px-3 py-2 text-sm text-white hover:bg-white/10 rounded-md transition-colors cursor-pointer flex items-center gap-2">
+                    <CreditCard size={16} className="text-gray-400" /> Billing
+                  </div>
+                  <div className="h-px bg-white/10 my-1 mx-2" />
+                  <div className="px-3 py-2 text-sm text-[var(--color-red-500)] hover:bg-[var(--color-red-500)]/10 rounded-md transition-colors cursor-pointer flex items-center gap-2">
+                    <LogOut size={16} /> Sign Out
+                  </div>
+                </GlassCard>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

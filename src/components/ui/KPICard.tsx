@@ -1,6 +1,10 @@
+"use client";
+
 import { LucideIcon } from "lucide-react";
 import { GlassCard } from "./GlassCard";
 import { cn } from "./GlassCard";
+import { motion } from "framer-motion";
+import React from "react";
 
 interface KPICardProps {
   title: string;
@@ -14,10 +18,20 @@ interface KPICardProps {
   isActive?: boolean;
 }
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 }
+  }
+};
+
 export function KPICard({ title, value, icon: Icon, trend, isActive }: KPICardProps) {
   return (
     <GlassCard 
       hoverEffect 
+      variants={itemVariants}
       className={cn(
         "flex flex-col gap-3 group relative overflow-hidden",
         isActive && "border-[var(--color-blue-500)]/50 shadow-[0_0_15px_rgba(45,124,255,0.15)]"
@@ -52,10 +66,25 @@ export function KPICard({ title, value, icon: Icon, trend, isActive }: KPICardPr
   );
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
 export function KPIGrid({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn("grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4", className)}>
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className={cn("grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4", className)}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
