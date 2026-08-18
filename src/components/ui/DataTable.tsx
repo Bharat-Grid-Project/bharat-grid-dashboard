@@ -35,7 +35,7 @@ const rowVariants = {
   visible: { 
     opacity: 1, 
     x: 0,
-    transition: { type: "spring", stiffness: 300, damping: 24 }
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 }
   }
 };
 
@@ -45,16 +45,16 @@ export function DataTable<T>({ data, columns, keyExtractor, className }: DataTab
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-white/[0.02]">
+            <tr className="border-b border-main/10 bg-main/[0.02]">
               {columns.map((col) => (
                 <th 
                   key={col.key} 
-                  className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                  className="px-6 py-4 text-xs font-semibold text-muted uppercase tracking-wider"
                 >
                   <div className="flex items-center gap-2">
                     {col.header}
                     {col.sortable && (
-                      <button className="text-gray-500 hover:text-gray-300 transition-colors">
+                      <button className="text-muted hover:text-main/80 transition-colors">
                         <ArrowUpDown size={14} />
                       </button>
                     )}
@@ -71,7 +71,7 @@ export function DataTable<T>({ data, columns, keyExtractor, className }: DataTab
           >
             {data.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-500">
+                <td colSpan={columns.length} className="px-6 py-12 text-center text-muted">
                   No data available.
                 </td>
               </tr>
@@ -80,7 +80,7 @@ export function DataTable<T>({ data, columns, keyExtractor, className }: DataTab
                 <motion.tr 
                   variants={rowVariants}
                   key={keyExtractor(item)} 
-                  className="hover:bg-white/[0.02] transition-colors duration-150 group"
+                  className="hover:bg-main/[0.02] transition-colors duration-150 group"
                 >
                   {columns.map((col) => (
                     <td key={col.key} className="px-6 py-4 whitespace-nowrap">
@@ -95,16 +95,16 @@ export function DataTable<T>({ data, columns, keyExtractor, className }: DataTab
       </div>
 
       {/* Pagination Footer */}
-      <div className="px-6 py-4 border-t border-white/10 flex items-center justify-between bg-white/[0.01]">
-        <div className="text-sm text-gray-400">
-          Showing <span className="font-medium text-gray-200">1</span> to <span className="font-medium text-gray-200">{data.length}</span> of <span className="font-medium text-gray-200">{data.length}</span> results
+      <div className="px-6 py-4 border-t border-main/10 flex items-center justify-between bg-main/[0.01]">
+        <div className="text-sm text-muted">
+          Showing <span className="font-medium text-main/90">1</span> to <span className="font-medium text-main/90">{data.length}</span> of <span className="font-medium text-main/90">{data.length}</span> results
         </div>
         
         <div className="flex gap-2">
-          <button className="p-1 rounded-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-colors disabled:opacity-50 disabled:pointer-events-none">
+          <button className="p-1 rounded-md border border-main/10 text-muted hover:text-main hover:bg-main/5 transition-colors disabled:opacity-50 disabled:pointer-events-none">
             <ChevronLeft size={18} />
           </button>
-          <button className="p-1 rounded-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-colors disabled:opacity-50 disabled:pointer-events-none">
+          <button className="p-1 rounded-md border border-main/10 text-muted hover:text-main hover:bg-main/5 transition-colors disabled:opacity-50 disabled:pointer-events-none">
             <ChevronRight size={18} />
           </button>
         </div>

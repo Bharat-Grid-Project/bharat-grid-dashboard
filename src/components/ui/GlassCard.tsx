@@ -19,8 +19,8 @@ export function GlassCard({ children, className, hoverEffect = false, ...props }
     <motion.div
       whileHover={hoverEffect ? { scale: 1.02, transition: { duration: 0.2 } } : undefined}
       className={cn(
-        "bg-slate-900/40 border border-white/10 backdrop-blur-md rounded-xl p-6",
-        hoverEffect && "hover:border-[var(--color-cyan-400)]/40 hover:shadow-[0_0_15px_rgba(34,211,238,0.15)] transition-colors duration-300",
+        "bg-card border border-main/10 backdrop-blur-md rounded-xl p-6",
+        hoverEffect && "hover:border-primary/40 hover:shadow-[0_0_15px_var(--color-primary)] transition-colors duration-300",
         className
       )}
       {...props}

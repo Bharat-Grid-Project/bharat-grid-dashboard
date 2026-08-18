@@ -63,10 +63,10 @@ export default function ClusterMonitor() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
-            <Activity className="text-[var(--color-cyan-400)]" /> Advanced Cluster Monitor
+          <h1 className="text-2xl font-bold text-main tracking-tight flex items-center gap-3">
+            <Activity className="text-primary" /> Advanced Cluster Monitor
           </h1>
-          <p className="text-gray-400 mt-1">Real-time telemetry and orchestration mapping across Bharat-Grid.</p>
+          <p className="text-muted mt-1">Real-time telemetry and orchestration mapping across Bharat-Grid.</p>
         </div>
       </div>
 
@@ -74,10 +74,10 @@ export default function ClusterMonitor() {
         
         {/* Cluster Map Visualization */}
         <GlassCard className="lg:col-span-2 p-6 flex flex-col min-h-[400px]">
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Share2 className="text-[var(--color-blue-500)]" size={18} /> Global Node Topology
+          <h3 className="text-lg font-semibold text-main mb-4 flex items-center gap-2">
+            <Share2 className="text-secondary" size={18} /> Global Node Topology
           </h3>
-          <div className="flex-1 relative bg-[var(--color-bg-900)]/50 rounded-xl overflow-hidden border border-white/5 flex items-center justify-center">
+          <div className="flex-1 relative bg-canvas/50 rounded-xl overflow-hidden border border-main/5 flex items-center justify-center">
             {/* Abstract Map Background Grid */}
             <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
             
@@ -95,36 +95,36 @@ export default function ClusterMonitor() {
               <motion.div 
                 animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="w-4 h-4 bg-[var(--color-cyan-400)] rounded-full shadow-[0_0_15px_var(--color-cyan-400)]" 
+                className="w-4 h-4 bg-primary rounded-full shadow-[0_0_15px_var(--color-primary)]" 
               />
-              <span className="text-[10px] text-[var(--color-cyan-400)] font-mono mt-2 bg-black/50 px-1.5 rounded">NODE-A</span>
+              <span className="text-[10px] text-primary font-mono mt-2 bg-card/50 px-1.5 rounded">NODE-A</span>
             </div>
             
             <div className="absolute top-[40%] left-[80%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
               <motion.div 
                 animate={{ scale: [1, 1.15, 1], opacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="w-5 h-5 bg-[var(--color-blue-500)] rounded-full shadow-[0_0_20px_var(--color-blue-500)]" 
+                className="w-5 h-5 bg-secondary rounded-full shadow-[0_0_20px_var(--color-secondary)]" 
               />
-              <span className="text-[10px] text-[var(--color-blue-500)] font-mono mt-2 bg-black/50 px-1.5 rounded">NODE-B (Master)</span>
+              <span className="text-[10px] text-secondary font-mono mt-2 bg-card/50 px-1.5 rounded">NODE-B (Master)</span>
             </div>
 
             <div className="absolute top-[80%] left-[60%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
               <motion.div 
                 animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="w-3 h-3 bg-[var(--color-green-500)] rounded-full shadow-[0_0_10px_var(--color-green-500)]" 
+                className="w-3 h-3 bg-success rounded-full shadow-[0_0_10px_var(--color-success)]" 
               />
-              <span className="text-[10px] text-[var(--color-green-500)] font-mono mt-2 bg-black/50 px-1.5 rounded">NODE-C</span>
+              <span className="text-[10px] text-success font-mono mt-2 bg-card/50 px-1.5 rounded">NODE-C</span>
             </div>
 
             <div className="absolute top-[60%] left-[30%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
               <motion.div 
                 animate={{ scale: [1, 1.25, 1], opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                className="w-4 h-4 bg-[var(--color-purple-500)] rounded-full shadow-[0_0_15px_var(--color-purple-500)]" 
+                className="w-4 h-4 bg-tertiary rounded-full shadow-[0_0_15px_var(--color-tertiary)]" 
               />
-              <span className="text-[10px] text-[var(--color-purple-500)] font-mono mt-2 bg-black/50 px-1.5 rounded">NODE-D</span>
+              <span className="text-[10px] text-tertiary font-mono mt-2 bg-card/50 px-1.5 rounded">NODE-D</span>
             </div>
             
             <style jsx>{`
@@ -147,21 +147,21 @@ export default function ClusterMonitor() {
           title="CPU Utilization" 
           data={data} 
           dataKey="cpu" 
-          strokeColor="#22d3ee" // Cyan 400
+          strokeColor="var(--color-primary)" // Cyan 400
           icon={Cpu} 
         />
         <LiveAreaChart 
           title="Memory Allocation" 
           data={data} 
           dataKey="ram" 
-          strokeColor="#a855f7" // Purple 500
+          strokeColor="var(--color-tertiary)" // Purple 500
           icon={HardDrive} 
         />
         <LiveAreaChart 
           title="Network Bandwidth" 
           data={data} 
           dataKey="network" 
-          strokeColor="#3b82f6" // Blue 500
+          strokeColor="var(--color-secondary)" // Blue 500
           icon={Network} 
         />
       </div>

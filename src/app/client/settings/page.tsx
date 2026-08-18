@@ -14,15 +14,15 @@ export default function SettingsPage() {
         className="w-full max-w-md"
       >
         <GlassCard className="flex flex-col items-center justify-center text-center py-12 px-6">
-          <div className="w-16 h-16 rounded-2xl bg-[var(--color-bg-800)] flex items-center justify-center text-gray-300 mb-6 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+          <div className="w-16 h-16 rounded-2xl bg-card flex items-center justify-center text-main/80 mb-6 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
             <Settings size={32} />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">Global Settings</h2>
-          <p className="text-gray-400 mb-6 max-w-sm">
+          <h2 className="text-2xl font-bold text-main mb-2 tracking-tight">Global Settings</h2>
+          <p className="text-muted mb-6 max-w-sm">
             Manage your account preferences, API keys, and notification channels.
           </p>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-500/30 bg-gray-500/10 text-gray-300 text-xs font-medium uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-gray-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-muted/30 bg-muted/10 text-main/80 text-xs font-medium uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-muted/50 animate-pulse" />
             Under Development
           </div>
         </GlassCard>

@@ -1,17 +1,58 @@
 @import "tailwindcss";
 
+/* 1. Cyber-Blue (Mapped to 'dark') */
+.dark {
+  --bg-canvas: #061127;
+  --bg-card: rgba(15, 23, 42, 0.4);
+  --accent-primary: #22D3EE;
+  --accent-secondary: #3B82F6;
+  --accent-warning: #F59E0B;
+  --accent-success: #16A34A;
+  --accent-danger: #DC2626;
+  --text-main: #FFFFFF;
+  --text-muted: #94A3B8;
+  --border-glass: rgba(255, 255, 255, 0.1);
+}
+
+/* 2. Graphite-Purple */
+.graphite {
+  --bg-canvas: #111216;
+  --bg-card: rgba(26, 29, 36, 0.6);
+  --accent-primary: #A855F7;
+  --accent-secondary: #9333EA;
+  --accent-warning: #F59E0B;
+  --accent-success: #10B981;
+  --accent-danger: #EF4444;
+  --text-main: #F1F5F9;
+  --text-muted: #64748B;
+  --border-glass: rgba(168, 85, 247, 0.2);
+}
+
+/* 3. Light Mode */
+.light {
+  --bg-canvas: #F8FAFC;
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --accent-primary: #7E22CE;
+  --accent-secondary: #2563EB;
+  --accent-warning: #D97706;
+  --accent-success: #059669;
+  --accent-danger: #EF4444;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --border-glass: rgba(0, 0, 0, 0.1);
+}
+
 @theme {
-  --color-bg-900: #061127;
-  --color-bg-800: #0A1735;
-  --color-blue-500: #2D7CFF;
-  --color-cyan-400: #22D3EE;
-  --color-purple-500: #8B5CF6;
-  --color-green-500: #16A34A;
-  --color-amber-500: #F59E0B;
-  --color-red-500: #DC2626;
-  --color-text-900: #F8FAFC;
-  --color-glass-border: rgba(255, 255, 255, 0.1);
-  --color-glass-bg: rgba(10, 23, 53, 0.6);
+  --color-canvas: var(--bg-canvas);
+  --color-card: var(--bg-card);
+  --color-primary: var(--accent-primary);
+  --color-secondary: var(--accent-secondary);
+  --color-warning: var(--accent-warning);
+  --color-success: var(--accent-success);
+  --color-danger: var(--accent-danger);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-glass-border: var(--border-glass);
 
   --font-sans: var(--font-inter), "Segoe UI", Arial, sans-serif;
   --font-mono: "Fira Code", "JetBrains Mono", monospace;
@@ -19,24 +60,25 @@
 
 @layer base {
   body {
-    background-color: var(--color-bg-900);
-    color: var(--color-text-900);
+    background-color: var(--color-canvas);
+    color: var(--color-text-main);
     font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
 @layer utilities {
   .glass-panel {
-    background-color: var(--color-glass-bg);
+    background-color: var(--color-card);
     border: 1px solid var(--color-glass-border);
     backdrop-filter: blur(12px);
   }
 
   .text-glow-primary {
-    text-shadow: 0 0 10px rgba(45, 124, 255, 0.5);
+    text-shadow: 0 0 10px var(--color-secondary);
   }
 
   .text-glow-accent {
-    text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+    text-shadow: 0 0 10px var(--color-primary);
   }
 }

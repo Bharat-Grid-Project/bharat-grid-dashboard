@@ -22,19 +22,19 @@ export function WorkspaceSwitcher() {
     <div className="p-4 border-b border-[var(--color-glass-border)]">
       <button
         onClick={handleToggle}
-        className="w-full flex items-center justify-between p-3 rounded-lg bg-[var(--color-bg-800)] hover:bg-[#132857] transition-colors border border-[var(--color-glass-border)] group"
+        className="w-full flex items-center justify-between p-3 rounded-lg bg-card hover:bg-card/80 transition-colors border border-[var(--color-glass-border)] group"
       >
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-md bg-[var(--color-bg-900)] text-[var(--color-blue-500)] group-hover:text-[var(--color-cyan-400)] transition-colors">
+          <div className="p-2 rounded-md bg-canvas text-secondary group-hover:text-primary transition-colors">
             {mode === "client" ? <User size={18} /> : <Server size={18} />}
           </div>
           <div className="text-left">
-            <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">
+            <div className="text-xs text-muted font-medium uppercase tracking-wider">
               Active Workspace
             </div>
             <div className="text-sm font-semibold text-[var(--color-text-900)] flex items-center gap-2">
               {mode === "client" ? "Client" : "Provider"}
-              <span className="text-[10px] bg-[var(--color-blue-500)]/20 text-[var(--color-blue-500)] px-1.5 py-0.5 rounded">
+              <span className="text-[10px] bg-secondary/20 text-secondary px-1.5 py-0.5 rounded">
                 Mode
               </span>
             </div>

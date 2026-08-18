@@ -26,28 +26,28 @@ export default function ProviderNodes() {
   const columns: Column<MockNode>[] = [
     { key: "name", header: "Node Identity", sortable: true, render: (item) => (
       <Link href={`/provider/nodes/${item.id}`} className="flex items-center gap-3 group">
-        <div className="p-2 rounded bg-white/5 text-gray-300 group-hover:text-[var(--color-blue-500)] transition-colors">
+        <div className="p-2 rounded bg-main/5 text-main/80 group-hover:text-secondary transition-colors">
           <Server size={16} />
         </div>
-        <span className="font-medium text-white group-hover:text-[var(--color-blue-500)] transition-colors">{item.name}</span>
+        <span className="font-medium text-main group-hover:text-secondary transition-colors">{item.name}</span>
       </Link>
     ) },
     { key: "status", header: "Status", sortable: true, render: (item) => (
       <StatusBadge status={item.status} />
     ) },
     { key: "specs", header: "Hardware Specs", render: (item) => (
-      <span className="text-gray-300 text-sm">{item.specs}</span>
+      <span className="text-main/80 text-sm">{item.specs}</span>
     ) },
     { key: "location", header: "Location", sortable: true, render: (item) => (
-      <span className="text-gray-400 text-sm">{item.location}</span>
+      <span className="text-muted text-sm">{item.location}</span>
     ) },
     { key: "utilization", header: "Utilization", sortable: true, render: (item) => (
       <div className="flex items-center gap-2">
-        <span className="font-mono text-sm text-[var(--color-cyan-400)]">{item.utilization}</span>
+        <span className="font-mono text-sm text-primary">{item.utilization}</span>
       </div>
     ) },
     { key: "actions", header: "", render: (item) => (
-      <Link href={`/provider/nodes/${item.id}`} className="text-[var(--color-blue-500)] hover:text-[var(--color-cyan-400)] text-sm font-medium transition-colors">
+      <Link href={`/provider/nodes/${item.id}`} className="text-secondary hover:text-primary text-sm font-medium transition-colors">
         View Dashboard →
       </Link>
     ) },
@@ -56,10 +56,10 @@ export default function ProviderNodes() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white tracking-tight">My Contributed Nodes</h1>
+        <h1 className="text-2xl font-bold text-main tracking-tight">My Contributed Nodes</h1>
         
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg-800)] border border-[var(--color-glass-border)] rounded-lg text-sm font-medium text-gray-300 hover:text-white transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-card border border-[var(--color-glass-border)] rounded-lg text-sm font-medium text-main/80 hover:text-main transition-colors">
             <Filter size={16} />
             Filter
           </button>

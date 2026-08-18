@@ -25,11 +25,11 @@ export default function SignInPage() {
   return (
     <div className="max-w-md mx-auto px-6 py-20 flex flex-col justify-center min-h-[calc(100vh-160px)]">
       <div className="text-center mb-8">
-        <div className="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-[var(--color-blue-500)] to-[var(--color-purple-500)] flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(45,124,255,0.4)]">
-          <Box size={24} className="text-white" />
+        <div className="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-secondary to-tertiary flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(45,124,255,0.4)]">
+          <Box size={24} className="text-main" />
         </div>
-        <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-        <p className="text-gray-400">Sign in to manage your decentralized compute.</p>
+        <h1 className="text-3xl font-bold text-main mb-2">Welcome Back</h1>
+        <p className="text-muted">Sign in to manage your decentralized compute.</p>
       </div>
 
       <GlassCard className="p-8">
@@ -42,12 +42,12 @@ export default function SignInPage() {
               className={cn(
                 "p-3 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all duration-300",
                 role === "client" 
-                  ? "bg-[var(--color-cyan-400)]/10 border-[var(--color-cyan-400)]/50 shadow-[0_0_15px_rgba(34,211,238,0.15)]" 
-                  : "bg-white/5 border-white/10 hover:bg-white/10 text-gray-400"
+                  ? "bg-primary/10 border-primary/50 shadow-[0_0_15px_rgba(34,211,238,0.15)]" 
+                  : "bg-main/5 border-main/10 hover:bg-main/10 text-muted"
               )}
             >
-              <Cpu size={24} className={role === "client" ? "text-[var(--color-cyan-400)]" : "text-gray-400"} />
-              <span className={cn("text-xs font-bold uppercase tracking-wider", role === "client" ? "text-white" : "text-gray-400")}>Client</span>
+              <Cpu size={24} className={role === "client" ? "text-primary" : "text-muted"} />
+              <span className={cn("text-xs font-bold uppercase tracking-wider", role === "client" ? "text-main" : "text-muted")}>Client</span>
             </button>
             
             <button
@@ -56,68 +56,68 @@ export default function SignInPage() {
               className={cn(
                 "p-3 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all duration-300",
                 role === "provider" 
-                  ? "bg-[var(--color-blue-500)]/10 border-[var(--color-blue-500)]/50 shadow-[0_0_15px_rgba(45,124,255,0.15)]" 
-                  : "bg-white/5 border-white/10 hover:bg-white/10 text-gray-400"
+                  ? "bg-secondary/10 border-secondary/50 shadow-[0_0_15px_rgba(45,124,255,0.15)]" 
+                  : "bg-main/5 border-main/10 hover:bg-main/10 text-muted"
               )}
             >
-              <Server size={24} className={role === "provider" ? "text-[var(--color-blue-500)]" : "text-gray-400"} />
-              <span className={cn("text-xs font-bold uppercase tracking-wider", role === "provider" ? "text-white" : "text-gray-400")}>Provider</span>
+              <Server size={24} className={role === "provider" ? "text-secondary" : "text-muted"} />
+              <span className={cn("text-xs font-bold uppercase tracking-wider", role === "provider" ? "text-main" : "text-muted")}>Provider</span>
             </button>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+            <label className="block text-sm font-medium text-main/80 mb-2">Email Address</label>
             <input 
               type="email" 
               placeholder="you@example.com"
-              className="w-full bg-[var(--color-bg-900)]/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[var(--color-cyan-400)] focus:ring-1 focus:ring-[var(--color-cyan-400)] transition-all"
+              className="w-full bg-canvas/50 border border-main/10 rounded-lg p-3 text-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+            <label className="block text-sm font-medium text-main/80 mb-2">Password</label>
             <input 
               type="password" 
               placeholder="••••••••"
-              className="w-full bg-[var(--color-bg-900)]/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[var(--color-cyan-400)] focus:ring-1 focus:ring-[var(--color-cyan-400)] transition-all"
+              className="w-full bg-canvas/50 border border-main/10 rounded-lg p-3 text-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
             />
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-gray-400 cursor-pointer">
-              <input type="checkbox" className="rounded border-gray-600 bg-gray-800 accent-[var(--color-blue-500)]" />
+            <label className="flex items-center gap-2 text-muted cursor-pointer">
+              <input type="checkbox" className="rounded border-muted bg-card accent-secondary" />
               Remember me
             </label>
-            <Link href="#" className="text-[var(--color-cyan-400)] hover:text-[var(--color-blue-500)] transition-colors">Forgot password?</Link>
+            <Link href="#" className="text-primary hover:text-secondary transition-colors">Forgot password?</Link>
           </div>
 
           <button 
             type="button"
             onClick={handleSignIn}
-            className="w-full bg-[var(--color-blue-500)] hover:bg-[#1E5FCE] text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_15px_rgba(45,124,255,0.3)] hover:shadow-[0_0_20px_rgba(45,124,255,0.5)] mt-4"
+            className="w-full bg-secondary hover:bg-secondary/80 text-main px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_15px_rgba(45,124,255,0.3)] hover:shadow-[0_0_20px_rgba(45,124,255,0.5)] mt-4"
           >
             Sign In
           </button>
         </form>
 
         <div className="mt-6 flex items-center gap-3">
-          <div className="flex-1 h-px bg-white/10" />
-          <span className="text-xs text-gray-500 uppercase tracking-widest">Or</span>
-          <div className="flex-1 h-px bg-white/10" />
+          <div className="flex-1 h-px bg-main/10" />
+          <span className="text-xs text-muted uppercase tracking-widest">Or</span>
+          <div className="flex-1 h-px bg-main/10" />
         </div>
 
         <button 
           type="button"
           onClick={handleSignIn}
-          className="mt-6 w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-3"
+          className="mt-6 w-full bg-main/5 hover:bg-main/10 border border-main/10 text-main px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-3"
         >
           <Globe size={18} />
           Continue with GitHub
         </button>
       </GlassCard>
 
-      <p className="text-center mt-8 text-gray-400 text-sm">
-        Don't have an account? <Link href="/auth/signup" className="text-[var(--color-cyan-400)] hover:text-[var(--color-blue-500)] font-medium transition-colors">Sign up</Link>
+      <p className="text-center mt-8 text-muted text-sm">
+        Don't have an account? <Link href="/auth/signup" className="text-primary hover:text-secondary font-medium transition-colors">Sign up</Link>
       </p>
     </div>
   );

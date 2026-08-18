@@ -18,7 +18,7 @@ export function LiveAreaChart({ title, data, dataKey, strokeColor, icon: Icon }:
 
   return (
     <GlassCard className="p-5 flex flex-col h-full w-full min-h-[250px]">
-      <h3 className="text-sm font-semibold text-gray-300 flex items-center gap-2 mb-4">
+      <h3 className="text-sm font-semibold text-main/80 flex items-center gap-2 mb-4">
         {Icon && <Icon style={{ color: strokeColor }} size={16} />} 
         {title}
       </h3>
@@ -31,11 +31,11 @@ export function LiveAreaChart({ title, data, dataKey, strokeColor, icon: Icon }:
                 <stop offset="95%" stopColor={strokeColor} stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.02)" vertical={false} horizontal={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-glass-border)" vertical={false} horizontal={false} />
             <XAxis dataKey="time" hide axisLine={false} tickLine={false} />
             <YAxis hide domain={[0, 100]} axisLine={false} tickLine={false} />
             <Tooltip 
-              contentStyle={{ backgroundColor: 'rgba(6, 17, 39, 0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}
+              contentStyle={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-glass-border)', borderRadius: '8px' }}
               itemStyle={{ color: strokeColor }}
               labelStyle={{ display: 'none' }}
               isAnimationActive={false}

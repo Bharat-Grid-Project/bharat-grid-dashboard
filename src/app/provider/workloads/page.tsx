@@ -27,45 +27,45 @@ export default function ProviderWorkloads() {
   const columns: Column<MockHostedWorkload>[] = [
     { key: "name", header: "Workload Name", sortable: true, render: (item) => (
       <div className="flex items-center gap-3 group">
-        <div className="p-2 rounded bg-white/5 text-gray-300">
+        <div className="p-2 rounded bg-main/5 text-main/80">
           <Box size={16} />
         </div>
-        <span className="font-medium text-white">{item.name}</span>
+        <span className="font-medium text-main">{item.name}</span>
       </div>
     ) },
     { key: "tenant", header: "Tenant (Client)", render: (item) => (
-      <span className="text-gray-300 font-mono text-sm">{item.tenant}</span>
+      <span className="text-main/80 font-mono text-sm">{item.tenant}</span>
     ) },
     { key: "status", header: "Status", sortable: true, render: (item) => (
       <StatusBadge status={item.status} />
     ) },
     { key: "node", header: "Hosted On", sortable: true, render: (item) => (
-      <div className="flex items-center gap-2 text-sm text-gray-300">
-        <Server size={14} className="text-[var(--color-blue-500)]" />
+      <div className="flex items-center gap-2 text-sm text-main/80">
+        <Server size={14} className="text-secondary" />
         {item.node}
       </div>
     ) },
     { key: "compute", header: "Resources Used", sortable: true, render: (item) => (
-      <div className="flex items-center gap-2 text-sm text-gray-400">
-        <Cpu size={14} className="text-[var(--color-cyan-400)]" />
+      <div className="flex items-center gap-2 text-sm text-muted">
+        <Cpu size={14} className="text-primary" />
         {item.compute}
       </div>
     ) },
     { key: "uptime", header: "Uptime", sortable: true, render: (item) => (
-      <span className="text-gray-400 text-sm">{item.uptime}</span>
+      <span className="text-muted text-sm">{item.uptime}</span>
     ) },
     { key: "earnings", header: "Generated", sortable: true, render: (item) => (
-      <span className="font-medium text-[var(--color-amber-500)] text-sm">{item.earnings}</span>
+      <span className="font-medium text-warning text-sm">{item.earnings}</span>
     ) },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white tracking-tight">Hosted Workloads</h1>
+        <h1 className="text-2xl font-bold text-main tracking-tight">Hosted Workloads</h1>
         
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg-800)] border border-[var(--color-glass-border)] rounded-lg text-sm font-medium text-gray-300 hover:text-white transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-card border border-[var(--color-glass-border)] rounded-lg text-sm font-medium text-main/80 hover:text-main transition-colors">
             <Filter size={16} />
             Filter
           </button>

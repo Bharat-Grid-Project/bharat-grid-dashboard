@@ -14,15 +14,15 @@ export default function ComputePage() {
         className="w-full max-w-md"
       >
         <GlassCard className="flex flex-col items-center justify-center text-center py-12 px-6">
-          <div className="w-16 h-16 rounded-2xl bg-[var(--color-bg-800)] flex items-center justify-center text-[var(--color-cyan-400)] mb-6 shadow-[0_0_20px_rgba(34,211,238,0.15)]">
+          <div className="w-16 h-16 rounded-2xl bg-card flex items-center justify-center text-primary mb-6 shadow-[0_0_20px_rgba(34,211,238,0.15)]">
             <Cpu size={32} />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">Compute Resources</h2>
-          <p className="text-gray-400 mb-6 max-w-sm">
+          <h2 className="text-2xl font-bold text-main mb-2 tracking-tight">Compute Resources</h2>
+          <p className="text-muted mb-6 max-w-sm">
             Detailed provisioning, benchmarking, and GPU/CPU allocation settings.
           </p>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--color-blue-500)]/30 bg-[var(--color-blue-500)]/10 text-[var(--color-blue-500)] text-xs font-medium uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-[var(--color-blue-500)] animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-secondary/30 bg-secondary/10 text-secondary text-xs font-medium uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
             Under Development
           </div>
         </GlassCard>
