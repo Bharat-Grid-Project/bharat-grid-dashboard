@@ -6,9 +6,10 @@ import { DataTable, Column } from "@/components/ui/DataTable";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { GlassCard } from "@/components/ui/GlassCard";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface MockDeployment {
+interface LiveDeployment {
   id: string;
   name: string;
   status: "live" | "warning" | "offline" | "pending";
@@ -16,17 +17,41 @@ interface MockDeployment {
   uptime: string;
 }
 
-const MOCK_DEPLOYMENTS: MockDeployment[] = [
-  { id: "dep-1", name: "AI-Worker-v2.1", status: "live", node: "NODE-SAIF-01", uptime: "2h 14m" },
-  { id: "dep-2", name: "API-Service-v1.3", status: "live", node: "NODE-042", uptime: "8h 21m" },
-  { id: "dep-3", name: "Data-Processor-v1.0", status: "offline", node: "NODE-019", uptime: "-" },
-  { id: "dep-4", name: "Web-App-v3.0", status: "warning", node: "NODE-087", uptime: "1d 4h" },
-];
-
 export default function ClientOverview() {
   const router = useRouter();
+  const [deployments, setDeployments] = useState<LiveDeployment[]>([]);
+  const [stats, setStats] = useState({ total: 0, running: 0 });
 
-  const columns: Column<MockDeployment>[] = [
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/deployments');
+        const data = await res.json();
+        
+        const mapped = data.map((d: any) => ({
+          id: d.id.toString(),
+          name: d.app_name,
+          status: d.status === 'success' ? 'live' : 'offline',
+          node: (d.target_node_id || '').substring(0, 8),
+          uptime: "Just now"
+        }));
+        
+        setDeployments(mapped);
+        setStats({
+          total: mapped.length,
+          running: mapped.filter((d: any) => d.status === 'live').length
+        });
+      } catch (err) {
+        console.error("Failed to fetch deployments:", err);
+      }
+    };
+    
+    fetchData();
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const columns: Column<LiveDeployment>[] = [
     { key: "name", header: "Application", sortable: true, render: (item) => (
       <Link href={`/client/deployments/${item.id}`} className="flex items-center gap-3 group">
         <div className="p-2 rounded bg-main/5 text-main/80 group-hover:text-secondary transition-colors">
@@ -70,16 +95,16 @@ export default function ClientOverview() {
 
       {/* KPI Grid */}
       <KPIGrid className="mt-8">
-        <KPICard title="Deployments" value="8" icon={Box} isActive />
-        <KPICard title="Running" value="3" icon={Activity} trend={{ value: 12.3, label: "vs yesterday", isPositive: true }} />
-        <KPICard title="Compute Used" value="12 vCPU" icon={Cpu} />
-        <KPICard title="Network Availability" value="99.8%" icon={ShieldCheck} trend={{ value: 0.6, label: "from last week", isPositive: true }} />
+        <KPICard title="Deployments" value={stats.total.toString()} icon={Box} isActive />
+        <KPICard title="Running" value={stats.running.toString()} icon={Activity} />
+        <KPICard title="Compute Used" value={`${stats.running * 2} vCPU`} icon={Cpu} />
+        <KPICard title="Network Availability" value="99.8%" icon={ShieldCheck} />
       </KPIGrid>
 
       {/* Data Table */}
       <div className="mt-8">
         <h2 className="text-lg font-semibold text-main mb-4">Active Deployments</h2>
-        <DataTable data={MOCK_DEPLOYMENTS} columns={columns} keyExtractor={(item) => item.id} />
+        <DataTable data={deployments} columns={columns} keyExtractor={(item) => item.id} />
       </div>
       
       {/* Visual Map Placeholder & Activity */}

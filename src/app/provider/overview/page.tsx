@@ -1,12 +1,34 @@
 /* eslint-disable react/no-unescaped-entities, react-hooks/set-state-in-effect, @typescript-eslint/no-explicit-any */
 "use client";
 
+import { useEffect, useState } from "react";
 import { Activity, Server, Zap, Cpu, Network, ShieldCheck, HardDrive } from "lucide-react";
 import { KPIGrid, KPICard } from "@/components/ui/KPICard";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 
 export default function ProviderOverview() {
+  const [nodes, setNodes] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchNodes = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/nodes/active');
+        const data = await res.json();
+        setNodes(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchNodes();
+    const interval = setInterval(fetchNodes, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const totalCpu = nodes.reduce((acc, node) => acc + node.available_cpu, 0);
+  const totalRam = nodes.reduce((acc, node) => acc + node.available_ram_gb, 0);
+  const avgLoad = nodes.length > 0 ? (nodes.reduce((acc, node) => acc + node.current_cpu_load, 0) / nodes.length).toFixed(1) : 0;
+
   return (
     <div className="space-y-6">
       {/* Node Identity Banner */}
@@ -37,9 +59,9 @@ export default function ProviderOverview() {
       {/* KPI Metrics Row */}
       <KPIGrid>
         <KPICard title="Global Uptime" value="99.9%" icon={Activity} trend={{ value: 0.1, label: "vs last month", isPositive: true }} isActive />
-        <KPICard title="Total Earnings" value="4,250 BGT" icon={Zap} trend={{ value: 340, label: "this week", isPositive: true }} />
-        <KPICard title="Active Nodes" value="3" icon={Server} />
-        <KPICard title="Resources Shared" value="24 vCPU" icon={Network} />
+        <KPICard title="Avg Node Load" value={`${avgLoad}%`} icon={Zap} trend={{ value: 2.1, label: "this week", isPositive: false }} />
+        <KPICard title="Active Nodes" value={nodes.length.toString()} icon={Server} />
+        <KPICard title="Resources Shared" value={`${totalCpu} vCPU`} icon={Network} />
       </KPIGrid>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
@@ -92,57 +114,27 @@ export default function ProviderOverview() {
           </div>
 
           <div className="space-y-4">
-            {/* Workload Item 1 */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-card/50 border border-main/5 hover:border-main/10 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center border border-secondary/30">
-                  <Activity size={18} className="text-secondary" />
+            {nodes.length === 0 ? (
+              <div className="text-center text-muted py-8 text-sm">No active nodes connected to your provider pool.</div>
+            ) : (
+              nodes.map((node: any) => (
+                <div key={node.node_id} className="flex items-center justify-between p-4 rounded-xl bg-card/50 border border-main/5 hover:border-main/10 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center border border-secondary/30">
+                      <Server size={18} className="text-secondary" />
+                    </div>
+                    <div>
+                      <h4 className="text-main font-medium text-sm">Active Grid Node</h4>
+                      <p className="text-xs text-muted mt-1">ID: {node.node_id.substring(0, 12)}... at {node.ip_address}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <StatusBadge status={node.current_cpu_load > 80 ? "warning" : "live"} label={node.current_cpu_load > 80 ? "High Load" : "Active"} />
+                    <p className="text-xs font-mono text-muted mt-1">{node.available_cpu} vCPU • {node.available_ram_gb}GB RAM</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-main font-medium text-sm">AI-Model-Inference-Job</h4>
-                  <p className="text-xs text-muted mt-1">Hosted on NODE-01</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <StatusBadge status="live" label="Active" />
-                <p className="text-xs font-mono text-muted mt-1">8 vCPU • 16GB RAM</p>
-              </div>
-            </div>
-
-            {/* Workload Item 2 */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-card/50 border border-main/5 hover:border-main/10 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-tertiary/20 flex items-center justify-center border border-tertiary/30">
-                  <Network size={18} className="text-tertiary" />
-                </div>
-                <div>
-                  <h4 className="text-main font-medium text-sm">Global-CDN-Relay</h4>
-                  <p className="text-xs text-muted mt-1">Hosted on NODE-02</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <StatusBadge status="live" label="Active" />
-                <p className="text-xs font-mono text-muted mt-1">4 vCPU • 8GB RAM</p>
-              </div>
-            </div>
-
-            {/* Workload Item 3 */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-card/50 border border-main/5 hover:border-main/10 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-muted/20 flex items-center justify-center border border-muted/30">
-                  <Server size={18} className="text-muted" />
-                </div>
-                <div>
-                  <h4 className="text-main font-medium text-sm">Data-Pipeline-Worker</h4>
-                  <p className="text-xs text-muted mt-1">Hosted on NODE-03</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <StatusBadge status="warning" label="High Load" />
-                <p className="text-xs font-mono text-muted mt-1">12 vCPU • 32GB RAM</p>
-              </div>
-            </div>
-
+              ))
+            )}
           </div>
         </GlassCard>
       </div>

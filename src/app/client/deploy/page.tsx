@@ -19,12 +19,28 @@ export default function DeployWizard() {
   const [ram, setRam] = useState(4);
   const [gpu, setGpu] = useState(0);
 
-  const handleDeploy = () => {
+  const handleDeploy = async () => {
     setIsDeploying(true);
-    // Mock deployment delay
-    setTimeout(() => {
-      router.push("/client/deployments/new-dep-123");
-    }, 2500);
+    
+    try {
+      const res = await fetch('http://localhost:8000/api/deploy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          app_name: appName,
+          docker_image: image
+        })
+      });
+      
+      if (!res.ok) throw new Error('Deployment failed');
+      
+      const data = await res.json();
+      router.push(`/client/deployments/${data.app_name}`);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to deploy. Is the orchestrator running and are there active nodes?');
+      setIsDeploying(false);
+    }
   };
 
   return (
