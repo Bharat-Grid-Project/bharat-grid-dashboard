@@ -13,8 +13,20 @@ export default function SignInPage() {
   const router = useRouter();
   const setMode = useWorkspaceStore((state) => state.setMode);
   const [role, setRole] = useState<"client" | "provider">("client");
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSignIn = () => {
+  const handleSignIn = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!email || !password) {
+      setError("Please provide both email and password.");
+      return;
+    }
+
     setMode(role);
     if (role === "client") {
       router.push("/client/overview");
@@ -66,10 +78,18 @@ export default function SignInPage() {
             </button>
           </div>
 
+          {error && (
+            <div className="bg-warning/10 border border-warning/30 text-warning text-sm p-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-main/80 mb-2">Email Address</label>
             <input 
               type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full bg-canvas/50 border border-main/10 rounded-lg p-3 text-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
             />
@@ -79,6 +99,8 @@ export default function SignInPage() {
             <label className="block text-sm font-medium text-main/80 mb-2">Password</label>
             <input 
               type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               className="w-full bg-canvas/50 border border-main/10 rounded-lg p-3 text-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
             />
