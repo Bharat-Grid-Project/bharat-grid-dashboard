@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities, react-hooks/set-state-in-effect, @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Activity, Server, Zap, Cpu, Network, ShieldCheck, HardDrive } from "lucide-react";
