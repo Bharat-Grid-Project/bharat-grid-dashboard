@@ -586,7 +586,7 @@
                             id: (node.node_id || '').substring(0, 12) + '...',
                             status: 'ONLINE',
                             uptime: '99.99%',
-                            cpu: Math.floor(Math.random() * 20) + 10,
+                            cpu: node.current_cpu_load !== undefined ? Math.round(node.current_cpu_load) : 0,
                             region: node.ip_address || 'local'
                         }));
                         renderNodes(mappedData);
