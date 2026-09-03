@@ -1,11 +1,9 @@
-import { cn } from "@/lib/utils"; // Assuming you have a cn utility, or fallback to classNames
-
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Skeleton({ className, ...props }: SkeletonProps) {
   return (
     <div
-      className={cn("animate-pulse rounded-md bg-muted/20", className)}
+      className={`animate-pulse rounded-md bg-white/10 ${className || ""}`}
       {...props}
     />
   );

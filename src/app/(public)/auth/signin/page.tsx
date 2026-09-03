@@ -36,11 +36,11 @@ export default function SignInPage() {
   };
 
   const connectWallet = async () => {
-    if (typeof window.ethereum !== "undefined") {
+    if (typeof (window as any).ethereum !== "undefined") {
       try {
         setIsConnecting(true);
         // Request account access
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
         
         // Save the Web3 connection state
         setMode(role);
