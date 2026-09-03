@@ -20,6 +20,7 @@ const CLIENT_NAV = [
   { name: "Overview", href: "/client/overview", icon: Home },
   { name: "Deployments", href: "/client/deployments", icon: Box },
   { name: "Cluster Monitor", href: "/client/cluster-monitor", icon: Activity },
+  { name: "Blockchain Explorer", href: "/client/explorer", icon: Activity },
   { name: "Compute", href: "/client/compute", icon: Cpu },
   { name: "Nodes", href: "/client/nodes", icon: Server },
   { name: "Logs", href: "/client/logs", icon: Activity },

@@ -1,18 +1,34 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Bell, Search, ShieldCheck, Menu, Settings, CreditCard, LogOut, RefreshCcw } from "lucide-react";
+import { Bell, Search, ShieldCheck, Menu, Settings, CreditCard, LogOut, RefreshCcw, Wallet } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWorkspaceStore } from "@/store/workspaceStore";
 import { useRouter } from "next/navigation";
+import { ethers } from "ethers";
 
 export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const { mode, setMode } = useWorkspaceStore();
   const router = useRouter();
+
+  const connectWallet = async () => {
+    if (typeof window !== 'undefined' && (window as any).ethereum) {
+      try {
+        const provider = new ethers.BrowserProvider((window as any).ethereum);
+        const accounts = await provider.send("eth_requestAccounts", []);
+        setWalletAddress(accounts[0]);
+      } catch (err) {
+        console.error("Wallet connection failed:", err);
+      }
+    } else {
+      alert("Please install MetaMask to connect to the Bharat-Grid Blockchain.");
+    }
+  };
 
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -76,6 +92,15 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
           <span className="text-xs font-medium text-main/80">Network Healthy</span>
           <span className="w-2 h-2 rounded-full bg-success animate-pulse shadow-[0_0_8px_rgba(22,163,74,0.6)] ml-1"></span>
         </div>
+
+        {/* Connect Wallet Button */}
+        <button 
+          onClick={connectWallet}
+          className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-lg bg-secondary/10 border border-secondary/30 text-secondary hover:bg-secondary/20 transition-all font-semibold text-sm"
+        >
+          <Wallet size={16} />
+          {walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}` : "Connect Wallet"}
+        </button>
 
         {/* Theme Switcher */}
         <ThemeSwitcher />
