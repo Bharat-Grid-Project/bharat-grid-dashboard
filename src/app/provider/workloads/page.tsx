@@ -17,10 +17,10 @@ interface MockHostedWorkload {
 }
 
 const MOCK_HOSTED: MockHostedWorkload[] = [
-  { id: "hw-1", name: "AI-Model-Inference", status: "live", node: "NODE-SAIF-01", tenant: "0x8F9...2A1B", compute: "8 vCPU / 16GB", uptime: "2d 4h", earnings: "142 BGT" },
-  { id: "hw-2", name: "DB-Replica", status: "live", node: "NODE-SAIF-01", tenant: "0x1C4...9D4F", compute: "2 vCPU / 8GB", uptime: "14d 8h", earnings: "580 BGT" },
-  { id: "hw-3", name: "Global-CDN-Relay", status: "live", node: "NODE-SAIF-02", tenant: "0x7E2...3B9C", compute: "4 vCPU / 8GB", uptime: "5d 12h", earnings: "245 BGT" },
-  { id: "hw-4", name: "Data-Pipeline-Worker", status: "warning", node: "NODE-SAIF-04-GPU", tenant: "0x3A1...8C2D", compute: "12 vCPU / 32GB", uptime: "8h 45m", earnings: "89 BGT" },
+  { id: "hw-1", name: "AI-Model-Inference", status: "live", node: "NODE-ALPHA-01", tenant: "0x8F9...2A1B", compute: "8 vCPU / 16GB", uptime: "2d 4h", earnings: "142 BGT" },
+  { id: "hw-2", name: "DB-Replica", status: "live", node: "NODE-ALPHA-01", tenant: "0x1C4...9D4F", compute: "2 vCPU / 8GB", uptime: "14d 8h", earnings: "580 BGT" },
+  { id: "hw-3", name: "Global-CDN-Relay", status: "live", node: "NODE-ALPHA-02", tenant: "0x7E2...3B9C", compute: "4 vCPU / 8GB", uptime: "5d 12h", earnings: "245 BGT" },
+  { id: "hw-4", name: "Data-Pipeline-Worker", status: "warning", node: "NODE-ALPHA-04-GPU", tenant: "0x3A1...8C2D", compute: "12 vCPU / 32GB", uptime: "8h 45m", earnings: "89 BGT" },
 ];
 
 export default function ProviderWorkloads() {

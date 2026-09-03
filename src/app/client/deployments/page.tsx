@@ -16,7 +16,7 @@ interface MockDeployment {
 }
 
 const MOCK_DEPLOYMENTS: MockDeployment[] = [
-  { id: "dep-1", name: "AI-Worker-v2.1", status: "live", node: "NODE-SAIF-01", uptime: "2h 14m", resources: "2 vCPU / 4 GB" },
+  { id: "dep-1", name: "AI-Worker-v2.1", status: "live", node: "NODE-ALPHA-01", uptime: "2h 14m", resources: "2 vCPU / 4 GB" },
   { id: "dep-2", name: "API-Service-v1.3", status: "live", node: "NODE-042", uptime: "8h 21m", resources: "2 vCPU / 4 GB" },
   { id: "dep-3", name: "Data-Processor-v1.0", status: "offline", node: "NODE-019", uptime: "-", resources: "4 vCPU / 16 GB" },
   { id: "dep-4", name: "Web-App-v3.0", status: "warning", node: "NODE-087", uptime: "1d 4h", resources: "1 vCPU / 2 GB" },

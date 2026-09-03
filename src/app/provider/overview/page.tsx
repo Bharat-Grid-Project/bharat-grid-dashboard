@@ -39,7 +39,7 @@ export default function ProviderOverview() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-main tracking-tight flex items-center gap-3">
-              Saif's Compute Cluster
+              My Compute Cluster
               <StatusBadge status="live" label="Actively Sharing" />
             </h1>
             <p className="text-sm text-primary font-mono mt-1">

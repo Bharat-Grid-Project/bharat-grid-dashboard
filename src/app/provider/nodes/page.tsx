@@ -16,10 +16,10 @@ interface MockNode {
 }
 
 const MOCK_NODES: MockNode[] = [
-  { id: "node-1", name: "NODE-SAIF-01", status: "live", location: "Mumbai, IN", specs: "64 Cores / 128 GB RAM", utilization: "82%" },
-  { id: "node-2", name: "NODE-SAIF-02", status: "live", location: "Bangalore, IN", specs: "32 Cores / 64 GB RAM", utilization: "45%" },
-  { id: "node-3", name: "NODE-SAIF-03", status: "offline", location: "Delhi, IN", specs: "16 Cores / 32 GB RAM", utilization: "0%" },
-  { id: "node-4", name: "NODE-SAIF-04-GPU", status: "warning", location: "Mumbai, IN", specs: "2x RTX 3090 / 64 GB RAM", utilization: "98%" },
+  { id: "node-1", name: "NODE-ALPHA-01", status: "live", location: "Mumbai, IN", specs: "64 Cores / 128 GB RAM", utilization: "82%" },
+  { id: "node-2", name: "NODE-ALPHA-02", status: "live", location: "Bangalore, IN", specs: "32 Cores / 64 GB RAM", utilization: "45%" },
+  { id: "node-3", name: "NODE-ALPHA-03", status: "offline", location: "Delhi, IN", specs: "16 Cores / 32 GB RAM", utilization: "0%" },
+  { id: "node-4", name: "NODE-ALPHA-04-GPU", status: "warning", location: "Mumbai, IN", specs: "2x RTX 3090 / 64 GB RAM", utilization: "98%" },
 ];
 
 export default function ProviderNodes() {

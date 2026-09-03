@@ -47,7 +47,7 @@ export default function ClusterMonitor() {
       "[WARN] High latency detected on subnet A, failing over...",
       "[INFO] Failover successful. Latency normalized.",
       "[DEBUG] Allocating 2 additional vCPUs to AI-Model-Inference",
-      "[INFO] Image sync completed on NODE-SAIF-02",
+      "[INFO] Image sync completed on NODE-ALPHA-02",
       "[INFO] Keepalive ping: ACK received from 14 nodes.",
       "[WARN] NODE-019 missed heartbeat (1/3).",
     ];

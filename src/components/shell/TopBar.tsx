@@ -158,11 +158,13 @@ export function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
             className="flex items-center gap-3 cursor-pointer group"
           >
             <div className="text-right hidden sm:block">
-              <div className="text-sm font-semibold text-main/90 group-hover:text-main transition-colors">Dev User</div>
+              <div className="text-sm font-semibold text-main/90 group-hover:text-main transition-colors">
+                {walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}` : "Web3 Guest"}
+              </div>
               <div className="text-xs text-muted">Account</div>
             </div>
             <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-tr from-secondary to-tertiary border border-main/20 flex items-center justify-center text-main font-bold text-sm shadow-[0_0_10px_rgba(45,124,255,0.3)]">
-              DU
+              {walletAddress ? "W3" : "WG"}
             </div>
           </div>
 

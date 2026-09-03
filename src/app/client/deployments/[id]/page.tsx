@@ -97,7 +97,7 @@ export default function DeploymentDetail({ params }: { params: Promise<{ id: str
             <div className="space-y-4">
               <div className="flex justify-between items-center pb-3 border-b border-main/5">
                 <span className="text-sm text-muted">Assigned Node</span>
-                <span className="text-sm font-mono text-primary">NODE-SAIF-01</span>
+                <span className="text-sm font-mono text-primary">NODE-ALPHA-01</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-main/5">
                 <span className="text-sm text-muted">Location</span>
